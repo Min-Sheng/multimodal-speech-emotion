@@ -32,11 +32,11 @@ def run_test(sess, model, batch_gen, data):
     list_pred = []
     list_label = []
 
-    max_loop  = len(data) / model.batch_size
-    remaining = len(data) % model.batch_size
+    max_loop  = int(len(data) / model.batch_size)
+    remaining = int(len(data) % model.batch_size)
 
     # evaluate data ( N of chunk (batch_size) + remaining( +1) )
-    for test_itr in xrange( max_loop + 1 ):
+    for test_itr in range( max_loop + 1 ):
         
         raw_encoder_inputs, raw_encoder_seq, raw_label = batch_gen.get_batch(
                                         data=data,
@@ -57,7 +57,7 @@ def run_test(sess, model, batch_gen, data):
         try:
             bpred, bloss = sess.run([model.batch_pred, model.batch_loss], input_feed)
         except:
-            print "excepetion occurs in valid step : " + str(test_itr)
+            print("excepetion occurs in valid step : " + str(test_itr))
             pass
         
         # remaining data case (last iteration)

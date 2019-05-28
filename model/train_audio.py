@@ -66,7 +66,7 @@ def train_model(model, batch_gen, num_train_steps, valid_freq, is_save=0, graph_
         best_dev_accr = 0
         test_accr_at_best_dev = 0
         
-        for index in xrange(num_train_steps):
+        for index in range(num_train_steps):
 
             try:
                 # run train 
@@ -74,7 +74,7 @@ def train_model(model, batch_gen, num_train_steps, valid_freq, is_save=0, graph_
                 writer.add_summary( summary, global_step=model.global_step.eval() )
                 
             except:
-                print "excepetion occurs in train step"
+                print("excepetion occurs in train step")
                 pass
                 
             
@@ -112,17 +112,17 @@ def train_model(model, batch_gen, num_train_steps, valid_freq, is_save=0, graph_
                     else:
                         # early stopping
                         if early_stop_count == 0:
-                            print "early stopped"
+                            print("early stopped")
                             break
                              
                         test_accr = 0
                         early_stop_count = early_stop_count -1
                         
-                    print str( int(end_time - initial_time)/60 ) + " mins" + \
+                    print(str( int(end_time - initial_time)/60 ) + " mins" + \
                         " step/seen/itr: " + str( model.global_step.eval() ) + "/ " + \
                                                str( model.global_step.eval() * model.batch_size ) + "/" + \
                                                str( round( model.global_step.eval() * model.batch_size / float(len(batch_gen.train_set)), 2)  ) + \
-                        "\tdev: " + '{:.3f}'.format(dev_accr)  + "  test: " + '{:.3f}'.format(test_accr) + "  loss: " + '{:.2f}'.format(dev_ce) 
+                        "\tdev: " + '{:.3f}'.format(dev_accr)  + "  test: " + '{:.3f}'.format(test_accr) + "  loss: " + '{:.2f}'.format(dev_ce) )
                 
         writer.close()
             
@@ -166,7 +166,7 @@ def main(data_path, batch_size, encoder_size, num_layer, hidden_dim,
     model.build_graph()
     
     valid_freq = int( len(batch_gen.train_set) * EPOCH_PER_VALID_FREQ / float(batch_size)  ) + 1
-    print "[Info] Valid Freq = " + str(valid_freq)
+    print("[Info] Valid Freq = " + str(valid_freq))
 
     train_model(model, batch_gen, num_train_steps, valid_freq, is_save, graph_dir_name)
     

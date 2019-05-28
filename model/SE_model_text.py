@@ -55,7 +55,7 @@ class SingleEncoderModelText:
     
 
     def _create_placeholders(self):
-        print '[launch-text] placeholders'
+        print('[launch-text] placeholders')
         with tf.name_scope('text_placeholder'):
             
             self.encoder_inputs  = tf.placeholder(tf.int32, shape=[self.batch_size, self.encoder_size], name="encoder")  # [batch,time_step]
@@ -67,7 +67,7 @@ class SingleEncoderModelText:
             self.embedding_placeholder = tf.placeholder(tf.float32, shape=[self.dic_size, self.embed_dim], name="embedding_placeholder")
 
     def _create_embedding(self):
-        print '[launch-text] create embedding'
+        print('[launch-text] create embedding')
         with tf.name_scope('embed_layer'):
             self.embed_matrix = tf.Variable(tf.random_normal([self.dic_size, self.embed_dim],
                                                             mean=0.0,
@@ -82,7 +82,7 @@ class SingleEncoderModelText:
             
     def _use_external_embedding(self):
         if self.use_glove == 1:
-            print '[launch-text] use pre-trained embedding'
+            print('[launch-text] use pre-trained embedding')
             self.embedding_init = self.embed_matrix.assign(self.embedding_placeholder)
             
             
@@ -103,7 +103,7 @@ class SingleEncoderModelText:
     
     
     def _create_gru_model(self):
-        print '[launch-text] create gru cell'
+        print('[launch-text] create gru cell')
 
         with tf.name_scope('text_RNN') as scope:
         
@@ -124,7 +124,7 @@ class SingleEncoderModelText:
         
         
     def _create_output_layers(self):
-        print '[launch-text] create output projection layer'        
+        print('[launch-text] create output projection layer')  
         
         with tf.name_scope('text_output_layer') as scope:
 
@@ -150,11 +150,11 @@ class SingleEncoderModelText:
                     
                 
     def _create_output_layers_for_multi(self):
-        print '[launch-text] create output projection layer for multi'        
+        print('[launch-text] create output projection layer for multi')
         
         with tf.name_scope('text_output_layer') as scope:
 
-            self.M = tf.Variable(tf.random_uniform([self.final_encoder_dimension, (self.final_encoder_dimension/2)],
+            self.M = tf.Variable(tf.random_uniform([self.final_encoder_dimension, (int(self.final_encoder_dimension/2))],
                                                    minval= -0.25,
                                                    maxval= 0.25,
                                                    dtype=tf.float32,
@@ -171,7 +171,7 @@ class SingleEncoderModelText:
         
     
     def _create_optimizer(self):
-        print '[launch-text] create optimizer'
+        print('[launch-text] create optimizer')
         
         with tf.name_scope('text_optimizer') as scope:
             opt_func = tf.train.AdamOptimizer(learning_rate=self.lr)
@@ -181,7 +181,7 @@ class SingleEncoderModelText:
     
     
     def _create_summary(self):
-        print '[launch-text] create summary'
+        print('[launch-text] create summary')
         
         with tf.name_scope('summary'):
             tf.summary.scalar('mean_loss', self.loss)

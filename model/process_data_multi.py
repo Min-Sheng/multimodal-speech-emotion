@@ -27,12 +27,12 @@ class ProcessDataMulti:
         self.test_set  = self.load_data(DATA_TEST_MFCC, DATA_TEST_MFCC_SEQN, DATA_TEST_PROSODY, DATA_TEST_TRANS, DATA_TEST_LABEL)
        
         self.dic_size = 0
-        with open( data_path + DIC ) as f:
+        with open( data_path + DIC , "rb") as f:
             self.dic_size = len( pickle.load(f) )
         
     def load_data(self, audio_mfcc, mfcc_seqN, audio_prosody, text_trans, label):
      
-        print 'load data : ' + audio_mfcc + ' ' +  mfcc_seqN + ' ' + audio_prosody + ' ' + text_trans + ' ' + label
+        print('load data : ' + audio_mfcc + ' ' +  mfcc_seqN + ' ' + audio_prosody + ' ' + text_trans + ' ' + label)
         output_set = []
 
         # audio
@@ -44,9 +44,9 @@ class ProcessDataMulti:
         # text
         tmp_text_trans          = np.load(self.data_path + text_trans)
 
-        for i in xrange( len(tmp_label) ) :
+        for i in range( len(tmp_label) ) :
             output_set.append( [tmp_audio_mfcc[i], tmp_mfcc_seqN[i], tmp_audio_prosody[i], tmp_text_trans[i], tmp_label[i]] )
-        print '[completed] load data'
+        print('[completed] load data')
         
         return output_set
 
@@ -85,7 +85,7 @@ class ProcessDataMulti:
         # Get a random batch of encoder and encoderR inputs from data,
         # pad them if needed
 
-        for _ in xrange(batch_size):
+        for _ in range(batch_size):
 
             if is_test is False:
                 # train case -  random sampling

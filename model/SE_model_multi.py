@@ -78,7 +78,7 @@ class SingleEncoderModelMulti:
 
 
     def _create_placeholders(self):
-        print '[launch-multi] placeholders'
+        print('[launch-multi] placeholders')
         with tf.name_scope('multi_placeholder'):
             
             # for audio
@@ -100,7 +100,7 @@ class SingleEncoderModelMulti:
 
 
     def _create_model_audio(self):
-        print '[launch-multi] create audio model'
+        print('[launch-multi] create audio model')
         self.model_audio =  SingleEncoderModelAudio(
                                                         batch_size=self.batch_size,
                                                         encoder_size=self.encoder_size_audio,
@@ -117,7 +117,7 @@ class SingleEncoderModelMulti:
 
 
     def _create_model_text(self):
-        print '[launch-multi] create text model'        
+        print('[launch-multi] create text model')
         self.model_text = SingleEncoderModelText(
                                                         batch_size=self.batch_size,
                                                         dic_size=self.dic_size,
@@ -137,11 +137,11 @@ class SingleEncoderModelMulti:
 
 
     def _create_output_layers(self):
-        print '[launch-multi] create output projection layer from (audio_final_dim/2) + (text_final_dim/2)'
+        print('[launch-multi] create output projection layer from (audio_final_dim/2) + (text_final_dim/2)')
         
         with tf.name_scope('multi_output_layer') as scope:
 
-            self.M = tf.Variable(tf.random_uniform([(self.model_audio.final_encoder_dimension/2)+(self.model_text.final_encoder_dimension/2), N_CATEGORY],
+            self.M = tf.Variable(tf.random_uniform([(int(self.model_audio.final_encoder_dimension/2))+(int(self.model_text.final_encoder_dimension/2)), N_CATEGORY],
                                                    minval= -0.25,
                                                    maxval= 0.25,
                                                    dtype=tf.float32,
@@ -165,7 +165,7 @@ class SingleEncoderModelMulti:
 
     
     def _create_optimizer(self):
-        print '[launch-multi] create optimizer'
+        print('[launch-multi] create optimizer')
         
         with tf.name_scope('multi_optimizer') as scope:
             opt_func = tf.train.AdamOptimizer(learning_rate=self.lr)
@@ -175,7 +175,7 @@ class SingleEncoderModelMulti:
     
     
     def _create_summary(self):
-        print '[launch-multi] create summary'
+        print('[launch-multi] create summary')
         
         with tf.name_scope('summary'):
             tf.summary.scalar('mean_loss', self.loss)
