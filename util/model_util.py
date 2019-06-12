@@ -20,7 +20,7 @@ input :
 
    - target_encoder_length  : max encoder length
 
-   - hidden                 : should be same btw target and condition, otherwise code should be changed
+   - hidden_dim             : should be same btw target and condition, otherwise code should be changed
 
 output : 
 

@@ -65,7 +65,6 @@ class ProcessDataAudio:
         
         # Get a random batch of encoder and encoderR inputs from data,
         # pad them if needed
-
         for _ in range(batch_size):
 
             if is_test is False:

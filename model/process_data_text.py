@@ -13,9 +13,9 @@ from project_config import *
 class ProcessDataText:
 
     # store data
-    train_set = []
-    dev_set = []
-    test_set = []
+    #train_set = []
+    #dev_set = []
+    #test_set = []
     
     def __init__(self, data_path):
         

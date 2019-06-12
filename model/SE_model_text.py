@@ -38,7 +38,7 @@ class SingleEncoderModelText:
         self.M = None
         self.b = None
         
-        self.y = None
+        #self.y = None
         self.optimizer = None
 
         self.batch_loss = None
@@ -95,7 +95,7 @@ class SingleEncoderModelText:
     def gru_drop_out_cell(self):
         return tf.contrib.rnn.DropoutWrapper(self.gru_cell(), input_keep_prob=self.dr_prob, output_keep_prob=self.dr_prob)                    
     
-    
+    # TODO: sigmoid_cross_entropy_with_logits -> softmax_cross_entropy_with_logits_v2
     def test_cross_entropy_with_logit(self, logits, labels):
         x = logits
         z = labels

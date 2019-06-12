@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 """
-what    : train audio model
+what    : train text model
 """
 import tensorflow as tf
 import os
@@ -32,9 +32,9 @@ def train_step(sess, model, batch_gen):
     input_feed[model.y_labels] = raw_label
     input_feed[model.dr_prob] = model.dr    
     
-    _, summary = sess.run([model.optimizer, model.summary_op], input_feed)
+    _, summary, pred, loss = sess.run([model.optimizer, model.summary_op, model.batch_pred, model.batch_loss], input_feed)
     
-    return summary
+    return summary, pred, raw_label, loss
 
     
 def train_model(model, batch_gen, num_train_steps, valid_freq, is_save=0, graph_dir_name='default'):
@@ -69,17 +69,25 @@ def train_model(model, batch_gen, num_train_steps, valid_freq, is_save=0, graph_
         best_dev_accr = 0
         test_accr_at_best_dev = 0
         
+        print_loss = 0
+
         for index in range(num_train_steps):
 
             try:
                 # run train 
-                summary = train_step(sess, model, batch_gen)
+                summary, pred, label, loss = train_step(sess, model, batch_gen)
                 writer.add_summary( summary, global_step=model.global_step.eval() )
-                
+                print_loss += np.mean(loss)
+                #print(pred)
+                #print(label)
             except:
                 print("excepetion occurs in train step")
                 pass
-                
+            
+            #if index % 100 == 0:
+            #    print_loss_avg = print_loss / 100
+            #    print('%d %d%% %.4f' % (index, index / num_train_steps * 100, print_loss_avg))
+            #    print_loss = 0
             
             # run validation
             if (index + 1) % valid_freq == 0:
@@ -137,7 +145,6 @@ def train_model(model, batch_gen, num_train_steps, valid_freq, is_save=0, graph_
                     batch_gen.data_path.split('/')[-2] + '\t' + \
                     graph_dir_name + '\t' + str(best_dev_accr) + '\t' + str(test_accr_at_best_dev) + '\n')
 
-
 def create_dir(dir_name):
     if not os.path.isdir(dir_name):
         os.mkdir(dir_name)
@@ -181,7 +188,7 @@ if __name__ == '__main__':
     p = argparse.ArgumentParser()
     p.add_argument('--data_path', type=str)
     p.add_argument('--batch_size', type=int, default=128)
-    p.add_argument('--encoder_size', type=int, default=750)
+    p.add_argument('--encoder_size', type=int, default=128)
     
     p.add_argument('--num_layer', type=int, default=1)
     p.add_argument('--hidden_dim', type=int, default=50)

@@ -56,6 +56,8 @@ def run_test(sess, model, batch_gen, data):
     
         try:
             bpred, bloss = sess.run([model.batch_pred, model.batch_loss], input_feed)
+            #print(bpred)
+            #print(raw_label)
         except:
             print("excepetion occurs in valid step : " + str(test_itr))
             pass

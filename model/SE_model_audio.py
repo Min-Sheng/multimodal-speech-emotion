@@ -33,7 +33,7 @@ class SingleEncoderModelAudio:
         self.M = None
         self.b = None
         
-        self.y = None
+        #self.y = None
         self.optimizer = None
 
         self.batch_loss = None
